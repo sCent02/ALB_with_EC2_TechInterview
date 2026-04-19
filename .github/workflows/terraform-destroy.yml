@@ -1,0 +1,44 @@
+name: Terraform Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_destroy:
+        description: 'Type YES to confirm destroy'
+        required: true
+        default: 'NO'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  destroy:
+    if: github.event.inputs.confirm_destroy == 'YES'
+    runs-on: ubuntu-latest
+    environment: aws-actions
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+        env:
+          TF_VAR_ami_id: "ami-098d120f4ec6bcdd9"
+          TF_VAR_vpc_id: "vpc-059291dc0b6cde88b"
+          TF_VAR_security_group_id: "sg-0c847c707caaf63db"
+          TF_VAR_instance_profile_name: "cambridge-exam-ec2-profile"
+          TF_VAR_subnet_ids: '["subnet-0bfb9c4fe7f2846ea", "subnet-0b0c1bb480203fb81"]'
