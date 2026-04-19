@@ -27,6 +27,16 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+      
+      - name: Terraform Plan
+        run: terraform plan
+        env:
+          TF_VAR_ami_id: "ami-098d120f4ec6bcdd9"
+          TF_VAR_vpc_id: "vpc-059291dc0b6cde88b"
+          TF_VAR_security_group_id: "sg-0c847c707caaf63db"
+          TF_VAR_instance_profile_name: "cambridge-exam-ec2-profile"
+          # For lists, use a JSON-style string
+          TF_VAR_subnet_ids: '["subnet-0bfb9c4fe7f2846ea", "subnet-0b0c1bb480203fb81"]'
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
