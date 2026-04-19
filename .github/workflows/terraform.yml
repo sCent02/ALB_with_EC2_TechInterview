@@ -1,0 +1,49 @@
+name: Terraform Deploy
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        env:
+          TF_VAR_ami_id: "ami-098d120f4ec6bcdd9"
+          TF_VAR_vpc_id: "vpc-0531a75758e0a6543"
+          TF_VAR_security_group_id: "sg-096f808224b770f5c"
+          TF_VAR_instance_profile_name: "cambridge-exam-ec2-profile"
+          # For lists, use a JSON-style string
+          TF_VAR_subnet_ids: '["subnet-065714944897ed2ec", "subnet-032e708cc9cfc813a"]'
+    
+      - name: Terraform Output
+        id: tf_output
+        run: |
+          ALB_URL=$(terraform output -raw alb_dns_name)
+          echo "ALB_URL=$ALB_URL" >> $GITHUB_ENV
+      
+      - name: Health Check
+        run: |
+          echo "Testing Load Balancer at http://${{ env.ALB_URL }}"
+          curl -Is http://${{ env.ALB_URL }} | head -n 1
+        
