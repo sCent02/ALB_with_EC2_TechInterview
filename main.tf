@@ -58,7 +58,7 @@ resource "aws_instance" "app_server" {
               #!/bin/bash
               yum install -y httpd
               systemctl start httpd
-              echo "Hello from Instance ${count.index}" > /var/www/html/index.html
+              echo "Hello from Instance ${count.index + 1}" > /var/www/html/index.html
               EOF
 }
 
