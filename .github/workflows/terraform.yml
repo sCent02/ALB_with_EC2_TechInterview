@@ -10,6 +10,8 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: aws-actions
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
