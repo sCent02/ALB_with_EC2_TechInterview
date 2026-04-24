@@ -30,22 +30,22 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
         env:
-          TF_VAR_ami_id: "ami-098d120f4ec6bcdd9"
-          TF_VAR_vpc_id: "vpc-059291dc0b6cde88b"
-          TF_VAR_security_group_id: "sg-0c847c707caaf63db"
-          TF_VAR_instance_profile_name: "cambridge-exam-ec2-profile"
+          TF_VAR_ami_id: ${{ var.AMI_ID }}
+          TF_VAR_vpc_id: ${{ var.VPC_ID }}
+          TF_VAR_security_group_id: ${{ var.SG_ID }}
+          TF_VAR_instance_profile_name: ${{ var.INSTANCE_PROFILE_NAME }}
           # For lists, use a JSON-style string
-          TF_VAR_subnet_ids: '["subnet-0bfb9c4fe7f2846ea", "subnet-0b0c1bb480203fb81"]'
+          TF_VAR_subnet_ids: '[${{ var.SN_1 }}, ${{ var.SN_2 }}]'
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
-          TF_VAR_ami_id: "ami-098d120f4ec6bcdd9"
-          TF_VAR_vpc_id: "vpc-059291dc0b6cde88b"
-          TF_VAR_security_group_id: "sg-0c847c707caaf63db"
-          TF_VAR_instance_profile_name: "cambridge-exam-ec2-profile"
+          TF_VAR_ami_id: ${{ var.AMI_ID }}
+          TF_VAR_vpc_id: ${{ var.VPC_ID }}
+          TF_VAR_security_group_id: ${{ var.SG_ID }}
+          TF_VAR_instance_profile_name: ${{ var.INSTANCE_PROFILE_NAME }}
           # For lists, use a JSON-style string
-          TF_VAR_subnet_ids: '["subnet-0bfb9c4fe7f2846ea", "subnet-0b0c1bb480203fb81"]'
+          TF_VAR_subnet_ids: '[${{ var.SN_1 }}, ${{ var.SN_2 }}]'
     
       - name: Terraform Output
         id: tf_output
