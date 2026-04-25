@@ -42,4 +42,4 @@ jobs:
           TF_VAR_security_group_id: ${{ vars.SG_ID }}
           TF_VAR_instance_profile_name: ${{ vars.INSTANCE_PROFILE_NAME }}
           # For lists, use a JSON-style string
-          TF_VAR_subnet_ids: '[${{ vars.SN_1 }}, ${{ vars.SN_2 }}]'
+          TF_VAR_subnet_ids: "[${{ vars.SN_1 }}, ${{ vars.SN_2 }}]"
