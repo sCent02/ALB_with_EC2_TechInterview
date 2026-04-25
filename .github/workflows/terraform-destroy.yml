@@ -48,4 +48,4 @@ jobs:
             -var="vpc_id=$VPC_ID" \
             -var="security_group_id=$SG_ID" \
             -var="instance_profile_name=$INSTANCE_PROFILE_NAME" \
-            -var="subnet_ids=[\"$SN_1\",\"$SN_2\"]"
+            -var='subnet_ids=["'"$SN_1"'","'"$SN_2"'"]'
