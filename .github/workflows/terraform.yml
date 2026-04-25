@@ -28,6 +28,13 @@ jobs:
         run: terraform init
       
       - name: Terraform Plan
+        env:
+          AMI_ID: ${{ secrets.AMI_ID }}
+          VPC_ID: ${{ secrets.VPC_ID }}
+          SG_ID: ${{ secrets.SECURITY_GROUP_ID }}
+          INSTANCE_PROFILE_NAME: ${{ secrets.INSTANCE_PROFILE_NAME }}
+          SN_1: ${{ secrets.SUBNET_1 }}
+          SN_2: ${{ secrets.SUBNET_2 }}
         run: |
           terraform plan \
             -var="ami_id=$AMI_ID" \
@@ -37,6 +44,13 @@ jobs:
             -var="subnet_ids=[\"$SN_1\",\"$SN_2\"]"
 
       - name: Terraform Apply
+        env:
+          AMI_ID: ${{ secrets.AMI_ID }}
+          VPC_ID: ${{ secrets.VPC_ID }}
+          SG_ID: ${{ secrets.SECURITY_GROUP_ID }}
+          INSTANCE_PROFILE_NAME: ${{ secrets.INSTANCE_PROFILE_NAME }}
+          SN_1: ${{ secrets.SUBNET_1 }}
+          SN_2: ${{ secrets.SUBNET_2 }}
         run: |
           terraform apply -auto-approve \
             -var="ami_id=$AMI_ID" \
