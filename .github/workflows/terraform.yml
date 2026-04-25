@@ -28,25 +28,23 @@ jobs:
         run: terraform init
       
       - name: Terraform Plan
-        run: terraform plan
-        env:
-          TF_VAR_ami_id: ${{ vars.AMI_ID }}
-          TF_VAR_vpc_id: ${{ vars.VPC_ID }}
-          TF_VAR_security_group_id: ${{ vars.SG_ID }}
-          TF_VAR_instance_profile_name: ${{ vars.INSTANCE_PROFILE_NAME }}
-          # For lists, use a JSON-style string
-          TF_VAR_subnet_ids: "[${{ vars.SN_1 }}, ${{ vars.SN_2 }}]"
+        run: |
+          terraform plan \
+            -var="ami_id=$AMI_ID" \
+            -var="vpc_id=$VPC_ID" \
+            -var="security_group_id=$SG_ID" \
+            -var="instance_profile_name=$INSTANCE_PROFILE_NAME" \
+            -var="subnet_ids=[\"$SN_1\",\"$SN_2\"]"
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
-        env:
-          TF_VAR_ami_id: ${{ vars.AMI_ID }}
-          TF_VAR_vpc_id: ${{ vars.VPC_ID }}
-          TF_VAR_security_group_id: ${{ vars.SG_ID }}
-          TF_VAR_instance_profile_name: ${{ vars.INSTANCE_PROFILE_NAME }}
-          # For lists, use a JSON-style string
-          TF_VAR_subnet_ids: "[${{ vars.SN_1 }}, ${{ vars.SN_2 }}]"
-    
+        run: |
+          terraform apply -auto-approve \
+            -var="ami_id=$AMI_ID" \
+            -var="vpc_id=$VPC_ID" \
+            -var="security_group_id=$SG_ID" \
+            -var="instance_profile_name=$INSTANCE_PROFILE_NAME" \
+            -var="subnet_ids=[\"$SN_1\",\"$SN_2\"]"
+
       - name: Terraform Output
         id: tf_output
         run: |
