@@ -38,10 +38,10 @@ jobs:
         env:
           AMI_ID: ${{ secrets.AMI_ID }}
           VPC_ID: ${{ secrets.VPC_ID }}
-          SG_ID: ${{ secrets.SECURITY_GROUP_ID }}
+          SG_ID: ${{ secrets.SG_ID }}
           INSTANCE_PROFILE_NAME: ${{ secrets.INSTANCE_PROFILE_NAME }}
-          SN_1: ${{ secrets.SUBNET_1 }}
-          SN_2: ${{ secrets.SUBNET_2 }}
+          SN_1: ${{ secrets.SN_1 }}
+          SN_2: ${{ secrets.SN_2 }}
         run: |
           terraform destroy -auto-approve \
             -var="ami_id=$AMI_ID" \
