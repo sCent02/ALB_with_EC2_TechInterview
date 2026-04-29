@@ -15,3 +15,19 @@ output "target_group_arn" {
   description = "The ARN of the Target Group"
   value       = aws_lb_target_group.tg.arn
 }
+
+# 5. Outputs for monitoring stack
+output "monitoring_instance_public_ip" {
+  description = "Public IP of monitoring instance"
+  value       = aws_instance.monitoring.public_ip
+}
+
+output "grafana_url" {
+  description = "Grafana URL"
+  value       = "http://${aws_instance.monitoring.public_ip}:3000"
+}
+
+output "prometheus_url" {
+  description = "Prometheus URL"
+  value       = "http://${aws_instance.monitoring.public_ip}:9090"
+}
